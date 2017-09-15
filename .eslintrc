@@ -1,0 +1,11 @@
+{
+  "parser": "babel-eslint",
+  "extends": ["eslint:recommended", "prettier"],
+  "plugins": ["jest", "prettier"],
+  "env": {
+    "jest/globals": true
+  },
+  "rules": {
+    "prettier/prettier": "error"
+  }
+}

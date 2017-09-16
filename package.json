@@ -5,7 +5,8 @@
   "main": "lib/index.js",
   "scripts": {
     "build": "babel src --out-dir lib",
-    "test": "jest test",
+    "test": "jest",
+    "test:watch": "jest --watch",
     "lint": "eslint src test",
     "prettier": "eslint src test --fix"
   },
@@ -19,13 +20,19 @@
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
     "babel-eslint": "^8.0.0",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.6.0",
+    "enzyme": "^2.9.1",
     "eslint": "^4.7.0",
     "eslint-config-prettier": "^2.4.0",
     "eslint-plugin-jest": "^21.1.0",
     "eslint-plugin-prettier": "^2.2.0",
     "jest": "^21.1.0",
     "prettier": "^1.7.0",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
+    "react-redux": "^5.0.6",
+    "react-test-renderer": "^15.6.1",
     "redux": "^3.7.2"
   }
 }

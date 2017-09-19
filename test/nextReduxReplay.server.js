@@ -1,3 +1,7 @@
+/**
+ * @jest-environment node
+ */
+
 import { shallow } from "enzyme";
 import { createElement } from "react";
 import nextReduxReplay from "../src/nextReduxReplay";

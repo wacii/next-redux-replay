@@ -19,7 +19,7 @@ test("getInitialProps() returns expected actions", () => {
   const { getInitialProps } = hoc(noop);
 
   expect.assertions(1);
-  return getInitialProps().then(value => expect(value).toEqual(actions));
+  return getInitialProps().then(value => expect(value).toEqual({ actions }));
 });
 
 test("renders provided element with expected props", () => {

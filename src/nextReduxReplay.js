@@ -27,7 +27,7 @@ function nextReduxReplay(callCreateStore, setup) {
     NextReduxWrapper.getInitialProps = async function getInitialProps() {
       store = callCreateStore(enhancedCreateStore);
       await setup(store);
-      return actions;
+      return { actions };
     };
 
     return NextReduxWrapper;

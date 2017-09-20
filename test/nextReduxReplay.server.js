@@ -35,3 +35,23 @@ test("renders provided element with expected props", () => {
   const element = shallow(createElement(wrappedComponent, props));
   expect(element.find("#my-component").props()).toMatchObject(props);
 });
+
+describe("when `getInitialProps()` not called", () => {
+  test("throws error when actions not provided", () => {
+    const callCreateStore = createStore => createStore(noop);
+    const setup = () => Promise.resolve();
+    const hoc = nextReduxReplay(callCreateStore, setup);
+    const wrappedComponent = hoc(() => createElement("div"));
+    expect(() => shallow(createElement(wrappedComponent))).toThrow();
+  });
+
+  test("doesn't throw if actions provided", () => {
+    const callCreateStore = createStore => createStore(noop);
+    const setup = () => Promise.resolve();
+    const hoc = nextReduxReplay(callCreateStore, setup);
+    const wrappedComponent = hoc(() => createElement("div"));
+    expect(() =>
+      shallow(createElement(wrappedComponent, { actions: [] }))
+    ).not.toThrow();
+  });
+});

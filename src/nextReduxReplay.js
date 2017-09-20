@@ -12,6 +12,15 @@ function nextReduxReplay(callCreateStore, setup) {
   return component => {
     // eslint-disable-next-line no-unused-vars
     function NextReduxWrapper({ actions, ...props }) {
+      if (!store) {
+        if (!actions) {
+          throw new Error(
+            "`props.actions` not found, remember to call getInitialProps()"
+          );
+        }
+        store = callCreateStore(enhancedCreateStore);
+        actions.forEach(action => store.dispatch(action));
+      }
       return createElement(Provider, { store }, component(props));
     }
 

@@ -4,6 +4,7 @@
 
 import { shallow } from "enzyme";
 import { createElement } from "react";
+import { cacheKey } from "../src/nextReduxReplay";
 import nextReduxReplay from "../src/nextReduxReplay";
 
 const noop = () => {};
@@ -53,5 +54,40 @@ describe("when `getInitialProps()` not called", () => {
     expect(() =>
       shallow(createElement(wrappedComponent, { actions: [] }))
     ).not.toThrow();
+  });
+});
+
+describe("memoization", () => {
+  // NOTE: cannot delete the property and JSDOM isn't reset between tests
+  beforeEach(() => (window[cacheKey] = undefined));
+
+  test("memoizes store on window", () => {
+    const callCreateStore = createStore => createStore(noop);
+    const setup = () => Promise.resolve();
+    const hoc = nextReduxReplay(callCreateStore, setup);
+    const wrappedComponent = hoc(() => createElement("div"));
+    shallow(createElement(wrappedComponent, { actions: [] }));
+
+    expect(window).toHaveProperty(cacheKey);
+  });
+
+  test("creates store only when necessary", () => {
+    const callCreateStore = jest.fn(createStore => createStore(noop));
+    const setup = () => Promise.resolve();
+    const component = () => createElement("div");
+
+    function wrap(component) {
+      return nextReduxReplay(callCreateStore, setup)(component);
+    }
+
+    shallow(createElement(wrap(component), { actions: [] }));
+    expect(callCreateStore.mock.calls).toHaveLength(1);
+
+    shallow(createElement(wrap(component), { actions: [] }));
+    expect(callCreateStore.mock.calls).toHaveLength(1);
+
+    window[cacheKey] = undefined;
+    shallow(createElement(wrap(component), { actions: [] }));
+    expect(callCreateStore.mock.calls).toHaveLength(2);
   });
 });

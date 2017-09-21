@@ -55,3 +55,19 @@ describe("when `getInitialProps()` not called", () => {
     ).not.toThrow();
   });
 });
+
+test("creates a new store every time", () => {
+  const callCreateStore = jest.fn(createStore => createStore(noop));
+  const setup = () => Promise.resolve;
+  const component = () => createElement("div");
+
+  function wrap(component) {
+    return nextReduxReplay(callCreateStore, setup)(component);
+  }
+
+  shallow(createElement(wrap(component), { actions: [] }));
+  expect(callCreateStore.mock.calls).toHaveLength(1);
+
+  shallow(createElement(wrap(component), { actions: [] }));
+  expect(callCreateStore.mock.calls).toHaveLength(2);
+});

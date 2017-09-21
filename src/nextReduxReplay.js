@@ -10,7 +10,6 @@ function nextReduxReplay(callCreateStore, setup) {
   const { actions, middleware } = buildRecordActionMiddleware();
   const enhancedCreateStore = applyMiddleware(middleware)(createStore);
   let store;
-
   function initStore() {
     if (typeof window === "undefined") {
       store = callCreateStore(enhancedCreateStore);
@@ -34,8 +33,8 @@ function nextReduxReplay(callCreateStore, setup) {
 
     NextReduxWrapper.getInitialProps = async function getInitialProps(context) {
       initStore();
-      await setup({ ...context, store });
-      return { actions };
+      const result = await setup({ ...context, store });
+      return { ...result, actions };
     };
 
     return NextReduxWrapper;

@@ -23,6 +23,20 @@ test("getInitialProps() returns expected actions", () => {
   return getInitialProps().then(value => expect(value).toEqual({ actions }));
 });
 
+test("renders component with props from `setup()`", async () => {
+  const callCreateStore = createStore => createStore(noop);
+  const props = { a: "a", b: "b" };
+  const setup = () => Promise.resolve(props);
+  const hoc = nextReduxReplay(callCreateStore, setup);
+  const component = props =>
+    createElement("div", { ...props, id: "my-component" });
+  const wrappedComponent = hoc(component);
+  const initialProps = await wrappedComponent.getInitialProps();
+
+  const element = shallow(createElement(wrappedComponent, initialProps));
+  expect(element.find("#my-component").props()).toMatchObject(props);
+});
+
 test("renders provided element with expected props", () => {
   const callCreateStore = createStore => createStore(noop);
   const setup = () => Promise.resolve();

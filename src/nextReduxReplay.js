@@ -26,12 +26,6 @@ function nextReduxReplay(callCreateStore, setup) {
     // eslint-disable-next-line no-unused-vars
     function NextReduxWrapper({ actions, ...props }) {
       if (!store) {
-        // TODO: use PropTypes instead or simply remove
-        if (!actions) {
-          throw new Error(
-            "`props.actions` not found, remember to call getInitialProps()"
-          );
-        }
         initStore();
         actions.forEach(action => store.dispatch(action));
       }

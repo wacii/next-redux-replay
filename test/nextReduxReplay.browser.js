@@ -12,7 +12,7 @@ const noop = () => {};
 test("getInitialProps() returns expected actions", () => {
   const actions = [{ type: "SOME_ACTION" }, { type: "OTHER_ACTION" }];
   const callCreateStore = createStore => createStore(noop);
-  const setup = store => {
+  const setup = ({ store }) => {
     actions.forEach(action => store.dispatch(action));
     return Promise.resolve();
   };

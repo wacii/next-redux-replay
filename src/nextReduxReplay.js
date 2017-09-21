@@ -32,9 +32,9 @@ function nextReduxReplay(callCreateStore, setup) {
       return createElement(Provider, { store }, component(props));
     }
 
-    NextReduxWrapper.getInitialProps = async function getInitialProps() {
+    NextReduxWrapper.getInitialProps = async function getInitialProps(context) {
       initStore();
-      await setup(store);
+      await setup({ ...context, store });
       return { actions };
     };
 

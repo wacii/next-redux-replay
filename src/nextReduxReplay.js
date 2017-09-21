@@ -10,11 +10,13 @@ function nextReduxReplay(callCreateStore, setup) {
   const { actions, middleware } = buildRecordActionMiddleware();
   const enhancedCreateStore = applyMiddleware(middleware)(createStore);
   let store;
+
+  const isServer = typeof window === "undefined";
   function initStore() {
-    if (typeof window === "undefined") {
-      store = callCreateStore(enhancedCreateStore);
+    if (isServer) {
+      store = callCreateStore(enhancedCreateStore, isServer);
     } else if (!window[cacheKey]) {
-      store = callCreateStore(enhancedCreateStore);
+      store = callCreateStore(enhancedCreateStore, isServer);
       window[cacheKey] = store;
     } else {
       store = window[cacheKey];

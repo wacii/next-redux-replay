@@ -5,12 +5,12 @@ import buildRecordActionMiddleware from "./buildRecordActionMiddleware";
 
 export const cacheKey = "__NEXT_REDUX_REPLAY__";
 
-function nextReduxReplay(makeStore, setup) {
+function nextReduxReplay(makeStore, initStore) {
   const { actions, middleware } = buildRecordActionMiddleware();
   let store;
 
   const isServer = typeof window === "undefined";
-  function initStore() {
+  function memoizedMakeStore() {
     if (isServer) {
       store = makeStore(middleware, isServer);
     } else if (!window[cacheKey]) {
@@ -25,15 +25,15 @@ function nextReduxReplay(makeStore, setup) {
     // eslint-disable-next-line no-unused-vars
     function NextReduxWrapper({ actions, ...props }) {
       if (!store) {
-        initStore();
+        memoizedMakeStore();
         actions.forEach(action => store.dispatch(action));
       }
       return createElement(Provider, { store }, component(props));
     }
 
     NextReduxWrapper.getInitialProps = async function getInitialProps(context) {
-      initStore();
-      const result = await setup({ ...context, store });
+      memoizedMakeStore();
+      const result = await initStore({ ...context, store });
       return { ...result, actions };
     };
 

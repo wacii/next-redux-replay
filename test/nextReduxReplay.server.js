@@ -4,18 +4,23 @@
 
 import { shallow } from "enzyme";
 import { createElement } from "react";
+import { applyMiddleware, createStore } from "redux";
 import nextReduxReplay from "../src/nextReduxReplay";
 
 const noop = () => {};
 
+function defaultMakeStore(middleware) {
+  return createStore(noop, undefined, applyMiddleware(middleware));
+}
+
 test("getInitialProps() returns expected actions", () => {
   const actions = [{ type: "SOME_ACTION" }, { type: "OTHER_ACTION" }];
-  const callCreateStore = createStore => createStore(noop);
+  const makeStore = defaultMakeStore;
   const setup = ({ store }) => {
     actions.forEach(action => store.dispatch(action));
     return Promise.resolve();
   };
-  const hoc = nextReduxReplay(callCreateStore, setup);
+  const hoc = nextReduxReplay(makeStore, setup);
   const { getInitialProps } = hoc(noop);
 
   expect.assertions(1);
@@ -23,10 +28,10 @@ test("getInitialProps() returns expected actions", () => {
 });
 
 test("renders component with props from `setup()`", async () => {
-  const callCreateStore = createStore => createStore(noop);
+  const makeStore = defaultMakeStore;
   const props = { a: "a", b: "b" };
   const setup = () => Promise.resolve(props);
-  const hoc = nextReduxReplay(callCreateStore, setup);
+  const hoc = nextReduxReplay(makeStore, setup);
   const component = props =>
     createElement("div", { ...props, id: "my-component" });
   const wrappedComponent = hoc(component);
@@ -37,9 +42,9 @@ test("renders component with props from `setup()`", async () => {
 });
 
 test("renders provided element with expected props", () => {
-  const callCreateStore = createStore => createStore(noop);
+  const makeStore = defaultMakeStore;
   const setup = () => Promise.resolve();
-  const hoc = nextReduxReplay(callCreateStore, setup);
+  const hoc = nextReduxReplay(makeStore, setup);
   const component = props =>
     createElement("div", { ...props, id: "my-component" }, "Hello!");
   const wrappedComponent = hoc(component);
@@ -52,17 +57,17 @@ test("renders provided element with expected props", () => {
 
 describe("when `getInitialProps()` not called", () => {
   test("throws error when actions not provided", () => {
-    const callCreateStore = createStore => createStore(noop);
+    const makeStore = defaultMakeStore;
     const setup = () => Promise.resolve();
-    const hoc = nextReduxReplay(callCreateStore, setup);
+    const hoc = nextReduxReplay(makeStore, setup);
     const wrappedComponent = hoc(() => createElement("div"));
     expect(() => shallow(createElement(wrappedComponent))).toThrow();
   });
 
   test("doesn't throw if actions provided", () => {
-    const callCreateStore = createStore => createStore(noop);
+    const makeStore = defaultMakeStore;
     const setup = () => Promise.resolve();
-    const hoc = nextReduxReplay(callCreateStore, setup);
+    const hoc = nextReduxReplay(makeStore, setup);
     const wrappedComponent = hoc(() => createElement("div"));
     expect(() =>
       shallow(createElement(wrappedComponent, { actions: [] }))
@@ -71,17 +76,17 @@ describe("when `getInitialProps()` not called", () => {
 });
 
 test("creates a new store every time", () => {
-  const callCreateStore = jest.fn(createStore => createStore(noop));
+  const makeStore = jest.fn(defaultMakeStore);
   const setup = () => Promise.resolve;
   const component = () => createElement("div");
 
   function wrap(component) {
-    return nextReduxReplay(callCreateStore, setup)(component);
+    return nextReduxReplay(makeStore, setup)(component);
   }
 
   shallow(createElement(wrap(component), { actions: [] }));
-  expect(callCreateStore.mock.calls).toHaveLength(1);
+  expect(makeStore.mock.calls).toHaveLength(1);
 
   shallow(createElement(wrap(component), { actions: [] }));
-  expect(callCreateStore.mock.calls).toHaveLength(2);
+  expect(makeStore.mock.calls).toHaveLength(2);
 });

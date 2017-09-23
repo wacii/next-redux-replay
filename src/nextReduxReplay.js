@@ -28,7 +28,7 @@ function nextReduxReplay(makeStore, initStore) {
         memoizedMakeStore();
         actions.forEach(action => store.dispatch(action));
       }
-      return createElement(Provider, { store }, component(props));
+      return createElement(Provider, { store }, createElement(component, props));
     }
 
     NextReduxWrapper.getInitialProps = async function getInitialProps(context) {

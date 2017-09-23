@@ -1,4 +1,3 @@
-import { createElement } from "react";
 import { Provider } from "react-redux";
 
 import buildRecordActionMiddleware from "./buildRecordActionMiddleware";
@@ -28,7 +27,11 @@ function nextReduxReplay(makeStore, initStore) {
         memoizedMakeStore();
         actions.forEach(action => store.dispatch(action));
       }
-      return createElement(Provider, { store }, createElement(component, props));
+      return (
+        <Provider store={store}>
+          <component {...props} />
+        </Provider>
+      );
     }
 
     NextReduxWrapper.getInitialProps = async function getInitialProps(context) {

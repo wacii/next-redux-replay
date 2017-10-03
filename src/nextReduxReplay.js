@@ -1,3 +1,4 @@
+import React from "react";
 import { Provider } from "react-redux";
 
 import buildRecordActionMiddleware from "./buildRecordActionMiddleware";
@@ -20,7 +21,7 @@ function nextReduxReplay(makeStore, initStore) {
     }
   }
 
-  return component => {
+  return Page => {
     // eslint-disable-next-line no-unused-vars
     function NextReduxWrapper({ actions, ...props }) {
       if (!store) {
@@ -29,15 +30,15 @@ function nextReduxReplay(makeStore, initStore) {
       }
       return (
         <Provider store={store}>
-          <component {...props} />
+          <Page {...props} />
         </Provider>
       );
     }
 
-    NextReduxWrapper.getInitialProps = async function getInitialProps(context) {
+    NextReduxWrapper.getInitialProps = function getInitialProps(context) {
       memoizedMakeStore();
-      const result = await initStore({ ...context, store });
-      return { ...result, actions };
+      return initStore({ ...context, store })
+        .then(result => ({ ...result, actions }));
     };
 
     return NextReduxWrapper;

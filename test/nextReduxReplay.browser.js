@@ -48,7 +48,7 @@ test("renders component with props from `initStore()`", async () => {
   const initialProps = await wrappedComponent.getInitialProps();
 
   const element = shallow(createElement(wrappedComponent, initialProps));
-  expect(element.find(MyComponent).props()).toMatchObject(results);
+  expect(element.dive().props()).toMatchObject(results);
 });
 
 test("renders provided element with expected props", () => {
@@ -58,7 +58,7 @@ test("renders provided element with expected props", () => {
   const props = { a: "a", b: "b" };
 
   const element = shallow(createElement(wrappedComponent, props));
-  expect(element.find(MyComponent).props()).toMatchObject(props);
+  expect(element.dive().props()).toMatchObject(props);
 });
 
 describe("when `getInitialProps()` not called", () => {

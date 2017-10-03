@@ -2,7 +2,7 @@
   "name": "next-redux-replay",
   "version": "0.0.0",
   "description": "Use Redux with Next.js",
-  "main": "lib/index.js",
+  "main": "lib/nextReduxReplay.js",
   "scripts": {
     "build": "babel src --out-dir lib",
     "test": "jest",
@@ -38,10 +38,8 @@
     "react-test-renderer": "^15.6.1",
     "redux": "^3.7.2"
   },
-  "dependencies": {
-    "babel-polyfill": "^6.26.0"
-  },
   "peerDependencies": {
+    "react": "^15.6.1",
     "react-redux": "^5.0.6"
   }
 }

@@ -40,5 +40,8 @@
   },
   "dependencies": {
     "babel-polyfill": "^6.26.0"
+  },
+  "peerDependencies": {
+    "react-redux": "^5.0.6"
   }
 }

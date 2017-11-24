@@ -2386,6 +2386,10 @@ ncp@~2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/ncp/-/ncp-2.0.0.tgz#195a21d6c46e361d2fb1281ba38b91e9df7bdbb3"
 
+next-redux-replay@^0.0.0:
+  version "0.0.0"
+  resolved "https://registry.yarnpkg.com/next-redux-replay/-/next-redux-replay-0.0.0.tgz#afa8590019359c70681d4f5be141e941b7560f5f"
+
 next@latest:
   version "3.2.2"
   resolved "https://registry.yarnpkg.com/next/-/next-3.2.2.tgz#f89473a15595a06d5ab25fae3351e440d305159a"

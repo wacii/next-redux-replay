@@ -1,6 +1,6 @@
 {
   "name": "next-redux-replay",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Use Redux with Next.js",
   "main": "lib/nextReduxReplay.js",
   "scripts": {

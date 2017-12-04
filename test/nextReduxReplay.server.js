@@ -89,3 +89,13 @@ test("creates a new store every time", () => {
   shallow(createElement(wrap(component), { actions: [] }));
   expect(makeStore.mock.calls).toHaveLength(2);
 });
+
+test("creates a new actions middleware every time", () => {
+  const { makeStore, initStore, actions, component } = setup();
+  const { getInitialProps } = nextReduxReplay(makeStore, initStore)(component);
+
+  expect.assertions(1);
+  return getInitialProps().then(() =>
+    getInitialProps().then(value => expect(value).toMatchObject({ actions }))
+  );
+});

@@ -6,14 +6,15 @@ import buildRecordActionMiddleware from "./buildRecordActionMiddleware";
 export const cacheKey = "__NEXT_REDUX_REPLAY__";
 
 function nextReduxReplay(makeStore, initStore) {
-  const { actions, middleware } = buildRecordActionMiddleware();
-  let store;
+  let actions, middleware, store;
 
   const isServer = typeof window === "undefined";
   function memoizedMakeStore() {
     if (isServer) {
+      ({ actions, middleware } = buildRecordActionMiddleware());
       store = makeStore(middleware, isServer);
     } else if (!window[cacheKey]) {
+      ({ actions, middleware } = buildRecordActionMiddleware());
       store = makeStore(middleware, isServer);
       window[cacheKey] = store;
     } else {

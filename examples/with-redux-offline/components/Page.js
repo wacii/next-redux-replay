@@ -1,8 +1,8 @@
-import React from 'react';
-import Link from 'next/link'
-import MakeRequests from './MakeRequests'
-import RequestsQueue from './RequestsQueue'
-import SyncStatus from './SyncStatus'
+import React from "react";
+import Link from "next/link";
+import MakeRequests from "./MakeRequests";
+import RequestsQueue from "./RequestsQueue";
+import SyncStatus from "./SyncStatus";
 
 const Page = ({ title, linkTo }) => {
   return (
@@ -14,10 +14,12 @@ const Page = ({ title, linkTo }) => {
         <MakeRequests />
       </div>
       <nav>
-        <Link href={linkTo}><a>Navigate</a></Link>
+        <Link href={linkTo}>
+          <a>Navigate</a>
+        </Link>
       </nav>
     </div>
-  )
-}
+  );
+};
 
-export default Page
+export default Page;

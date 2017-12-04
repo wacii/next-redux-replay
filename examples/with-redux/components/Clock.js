@@ -1,13 +1,13 @@
 import React from "react";
 export default ({ lastUpdate, light }) => {
   return (
-    <div className={light ? 'light' : ''}>
+    <div className={light ? "light" : ""}>
       {format(new Date(lastUpdate))}
       <style jsx>{`
         div {
           padding: 15px;
           display: inline-block;
-          color: #82FA58;
+          color: #82fa58;
           font: 50px menlo, monaco, monospace;
           background-color: #000;
         }
@@ -17,9 +17,10 @@ export default ({ lastUpdate, light }) => {
         }
       `}</style>
     </div>
-  )
-}
+  );
+};
 
-const format = t => `${pad(t.getUTCHours())}:${pad(t.getUTCMinutes())}:${pad(t.getUTCSeconds())}`
+const format = t =>
+  `${pad(t.getUTCHours())}:${pad(t.getUTCMinutes())}:${pad(t.getUTCSeconds())}`;
 
-const pad = n => n < 10 ? `0${n}` : n
+const pad = n => (n < 10 ? `0${n}` : n);

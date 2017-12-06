@@ -5,8 +5,11 @@ import buildRecordActionMiddleware from "./buildRecordActionMiddleware";
 
 export const cacheKey = "__NEXT_REDUX_REPLAY__";
 
-function nextReduxReplay(makeStore, initStore) {
+function nextReduxReplay(makeStore, initStore, options = {}) {
   let actions, middleware, store;
+
+  if (options.replayAutomatically === undefined)
+    options.replayAutomatically = true;
 
   const isServer = typeof window === "undefined";
   function memoizedMakeStore() {
@@ -25,13 +28,18 @@ function nextReduxReplay(makeStore, initStore) {
   return Page => {
     // eslint-disable-next-line no-unused-vars
     function NextReduxWrapper({ actions, ...props }) {
+      const replayActions = () =>
+        actions.forEach(action => store.dispatch(action));
       if (!store) {
         memoizedMakeStore();
-        actions.forEach(action => store.dispatch(action));
+        options.replayAutomatically && replayActions();
       }
+      const pageProps = options.replayAutomatically
+        ? props
+        : { ...props, replayActions };
       return (
         <Provider store={store}>
-          <Page {...props} />
+          <Page {...pageProps} />
         </Provider>
       );
     }

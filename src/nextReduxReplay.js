@@ -12,13 +12,13 @@ function nextReduxReplay(makeStore, initStore, options = {}) {
     options.replayAutomatically = true;
 
   const isServer = typeof window === "undefined";
-  function memoizedMakeStore() {
+  function memoizedMakeStore(serverActions = []) {
     if (isServer) {
       ({ actions, middleware } = buildRecordActionMiddleware());
-      store = makeStore(middleware, isServer);
+      store = makeStore(serverActions, middleware, isServer);
     } else if (!window[cacheKey]) {
       ({ actions, middleware } = buildRecordActionMiddleware());
-      store = makeStore(middleware, isServer);
+      store = makeStore(serverActions, middleware, isServer);
       window[cacheKey] = store;
     } else {
       store = window[cacheKey];
@@ -28,18 +28,17 @@ function nextReduxReplay(makeStore, initStore, options = {}) {
   return Page => {
     // eslint-disable-next-line no-unused-vars
     function NextReduxWrapper({ actions, ...props }) {
-      const replayActions = () =>
-        actions.forEach(action => store.dispatch(action));
       if (!store) {
-        memoizedMakeStore();
-        options.replayAutomatically && replayActions();
+        if (actions === undefined) {
+          throw new TypeError(
+            "Actions required. Did you not call `getInitialProps()`?"
+          );
+        }
+        memoizedMakeStore(actions);
       }
-      const pageProps = options.replayAutomatically
-        ? props
-        : { ...props, replayActions };
       return (
         <Provider store={store}>
-          <Page {...pageProps} />
+          <Page {...props} />
         </Provider>
       );
     }

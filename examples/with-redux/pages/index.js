@@ -23,7 +23,7 @@ function initStore({ store, isServer }) {
   store.dispatch(serverRenderClock(isServer));
   store.dispatch(addCount());
 
-  return { isServer };
+  return Promise.resolve({ isServer });
 }
 
 function mapDispatchToProps(dispatch) {

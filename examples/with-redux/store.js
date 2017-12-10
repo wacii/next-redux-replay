@@ -47,10 +47,12 @@ export const addCount = () => dispatch => {
 };
 
 // FIXME: add support for initialState?
-export const makeStore = middleware => {
-  return createStore(
+export const makeStore = (actions, middleware) => {
+  const store = createStore(
     reducer,
     exampleInitialState,
     composeWithDevTools(applyMiddleware(thunkMiddleware, middleware))
   );
+  actions.forEach(action => store.dispatch(action));
+  return store;
 };

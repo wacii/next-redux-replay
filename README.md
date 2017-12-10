@@ -19,11 +19,13 @@ import withRedux from "next-redux-replay";
 
 const SomePage = () => <div />;
 
-const makeStore = (nextReduxReplayMiddleware, _isServer) => {
-  return createStore(
+const makeStore = (actions, nextReduxReplayMiddleware, _isServer) => {
+  const store = createStore(
     rootReducer,
     applyMiddleware(nextReduxReplayMiddleware)
   );
+  actions.forEach(action => store.dispatch(action));
+  return store;
 };
 
 const initState = ({ store, isServer }) => {
@@ -37,7 +39,7 @@ export default withRedux(makeStore, initState)(SomePage)
 
 ## `makeStore()`
 
-This function should create the store with the provided middleware. This middleware is responsible for collecting actions to be replayed on the client, so it should be placed in the middleware chain accordingly; i.e. after Redux Thunk.
+This function should create the store with the provided middleware then replay the recorded actions on the store. This middleware is responsible for collecting actions to be replayed on the client, so it should be placed in the middleware chain accordingly; i.e. after Redux Thunk.
 
 ## `initState()`
 

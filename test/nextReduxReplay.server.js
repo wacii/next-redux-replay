@@ -21,9 +21,12 @@ function setup() {
     component(props) {
       return createElement(MyComponent, props);
     },
-    makeStore: jest.fn(middleware =>
-      createStore(() => ({}), undefined, applyMiddleware(middleware))
-    ),
+    makeStore: jest.fn((actions, middleware) => {
+      const reducer = () => ({});
+      const store = createStore(reducer, applyMiddleware(middleware));
+      actions.forEach(action => store.dispatch(action));
+      return store;
+    }),
     initStore({ store }) {
       actions.forEach(action => store.dispatch(action));
       return Promise.resolve(results);

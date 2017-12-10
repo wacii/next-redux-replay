@@ -86,12 +86,18 @@ function tickMiddleware(store) {
   };
 }
 
-export const makeStore = middleware => {
-  return createStore(
+export const makeStore = (actions, middleware) => {
+  const store = createStore(
     reducer,
     composeWithDevTools(
-      offline(config),
+      offline({
+        ...config,
+        persistCallback() {
+          actions.forEach(action => store.dispatch(action))
+        }
+      }),
       applyMiddleware(tickMiddleware, middleware)
     )
   );
+  return store;
 };

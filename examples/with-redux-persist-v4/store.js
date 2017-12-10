@@ -1,8 +1,7 @@
 import { createStore, applyMiddleware } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 import thunkMiddleware from "redux-thunk";
-import { persistStore, persistReducer } from "redux-persist";
-import storage from "redux-persist/lib/storage";
+import { autoRehydrate, persistStore } from "redux-persist";
 
 const exampleInitialState = {
   lastUpdate: 0,
@@ -48,16 +47,14 @@ export const addCount = () => dispatch => {
   return dispatch({ type: actionTypes.ADD });
 };
 
-// STORE FACTORY
-const config = {
-  key: "root",
-  storage
-};
-const reducer = persistReducer(config, rootReducer);
-
-export const makeStore = middleware => {
-  return createStore(
-    reducer,
-    composeWithDevTools(applyMiddleware(thunkMiddleware, middleware))
+export const makeStore = (actions, middleware) => {
+  const store = createStore(
+    rootReducer,
+    composeWithDevTools(
+      applyMiddleware(thunkMiddleware, middleware),
+      autoRehydrate()
+    )
   );
+  persistStore(store, () => actions.forEach(action => store.dispatch(action)));
+  return store;
 };

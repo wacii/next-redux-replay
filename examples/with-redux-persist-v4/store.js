@@ -55,6 +55,9 @@ export const makeStore = (actions, middleware) => {
       autoRehydrate()
     )
   );
+  // apply actions now
+  actions.forEach(action => store.dispatch(action));
+  // and again after the store has been persisted
   persistStore(store, {}, () =>
     actions.forEach(action => store.dispatch(action))
   );

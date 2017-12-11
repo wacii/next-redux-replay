@@ -93,11 +93,12 @@ export const makeStore = (actions, middleware) => {
       offline({
         ...config,
         persistCallback() {
-          actions.forEach(action => store.dispatch(action))
+          actions.forEach(action => store.dispatch(action));
         }
       }),
       applyMiddleware(tickMiddleware, middleware)
     )
   );
+  actions.forEach(action => store.dispatch(action));
   return store;
 };

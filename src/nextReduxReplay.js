@@ -45,7 +45,7 @@ function nextReduxReplay(makeStore, initStore, options = {}) {
 
     NextReduxWrapper.getInitialProps = function getInitialProps(context) {
       memoizedMakeStore();
-      return initStore({ ...context, store }).then(result => ({
+      return initStore({ ...context, store, isServer }).then(result => ({
         ...result,
         actions
       }));

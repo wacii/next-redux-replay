@@ -52,7 +52,11 @@ export const makeStore = (actions, middleware) => {
     rootReducer,
     composeWithDevTools(
       applyMiddleware(thunkMiddleware, middleware),
-      autoRehydrate()
+      autoRehydrate({
+        stateReconciler(_state, inboundState) {
+          return inboundState;
+        }
+      })
     )
   );
   // apply actions now

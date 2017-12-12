@@ -2,6 +2,7 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import { applyMiddleware, createStore } from "redux";
 import { offline } from "@redux-offline/redux-offline";
 import defaultConfig from "@redux-offline/redux-offline/lib/defaults";
+import { createPersistor, getStoredState } from "redux-persist";
 
 // ACTIONS
 
@@ -52,19 +53,22 @@ const initialState = {
   timer: 0
 };
 function reducer(state = initialState, action) {
-  if (action.type === "Offline/SCHEDULE_RETRY") {
-    return {
-      ...state,
-      timer: action.payload.delay / 1000
-    };
+  switch (action.type) {
+    case "persist/REHYDRATE":
+      return action.payload;
+    case "Offline/SCHEDULE_RETRY":
+      return {
+        ...state,
+        timer: action.payload.delay / 1000
+      };
+    case "TICK":
+      return {
+        ...state,
+        timer: state.timer === 0 ? 0 : state.timer - 1
+      };
+    default:
+      return state;
   }
-  if (action.type === "TICK") {
-    return {
-      ...state,
-      timer: state.timer === 0 ? 0 : state.timer - 1
-    };
-  }
-  return state;
 }
 
 const config = {
@@ -90,15 +94,20 @@ export const makeStore = (actions, middleware) => {
   const store = createStore(
     reducer,
     composeWithDevTools(
-      offline({
-        ...config,
-        persistCallback() {
-          actions.forEach(action => store.dispatch(action));
-        }
-      }),
+      offline({ ...config, persist: false }),
       applyMiddleware(tickMiddleware, middleware)
     )
   );
+  // apply actions now
   actions.forEach(action => store.dispatch(action));
+  // and again on the restored state
+  const persistConfig = {};
+  getStoredState(persistConfig, (error, storedState) => {
+    store.dispatch({ type: "persist/REHYDRATE", payload: storedState });
+    actions.forEach(action => store.dispatch(action));
+
+    createPersistor(store, persistConfig);
+  });
+
   return store;
 };

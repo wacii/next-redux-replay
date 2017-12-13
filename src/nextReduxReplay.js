@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 import React from "react";
 import { Provider } from "react-redux";
 
@@ -26,7 +27,6 @@ function nextReduxReplay(makeStore, initStore, options = {}) {
   }
 
   return Page => {
-    // eslint-disable-next-line no-unused-vars
     function NextReduxWrapper({ actions, ...props }) {
       if (!store) {
         if (actions === undefined) {
@@ -35,6 +35,9 @@ function nextReduxReplay(makeStore, initStore, options = {}) {
           );
         }
         memoizedMakeStore(actions);
+      }
+      if (middleware) {
+        middleware.stopRecording();
       }
       return (
         <Provider store={store}>

@@ -12,3 +12,14 @@ test("returned middleware records actions", () => {
   newActions.forEach(action => store.dispatch(action));
   expect(actions).toEqual(newActions);
 });
+
+test("middleware.stopRecording()", () => {
+  const { actions, middleware } = buildRecordActionMiddleware();
+  const store = createStore(noop, applyMiddleware(middleware));
+  expect(actions).toEqual([]);
+
+  middleware.stopRecording();
+  const newActions = [{ type: "SOME_ACTION" }, { type: "ANOTHER_ACTION" }];
+  newActions.forEach(action => store.dispatch(action));
+  expect(actions).toEqual([]);
+});

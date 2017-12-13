@@ -2510,9 +2510,9 @@ negotiator@0.6.1:
   version "0.6.1"
   resolved "https://registry.yarnpkg.com/negotiator/-/negotiator-0.6.1.tgz#2b327184e8992101177b28563fb5e7102acd0ca9"
 
-next-redux-replay@^0.0.0:
-  version "0.0.0"
-  resolved "https://registry.yarnpkg.com/next-redux-replay/-/next-redux-replay-0.0.0.tgz#afa8590019359c70681d4f5be141e941b7560f5f"
+next-redux-replay@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/next-redux-replay/-/next-redux-replay-1.2.0.tgz#6b8162199e2a936247d73b9f120e3382fd1f483e"
 
 next@latest:
   version "3.2.2"

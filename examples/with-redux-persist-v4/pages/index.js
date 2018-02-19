@@ -1,5 +1,6 @@
 import React from "react";
-import { makeStore, addCount, serverRenderClock } from "../store";
+import { addCount, serverRenderClock } from "../store/actions";
+import makeStore from "../store/makeStore";
 import withRedux from "next-redux-replay";
 
 import Counter from "../components/Counter";

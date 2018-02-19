@@ -1,4 +1,4 @@
-import { ADD, TICK } from "./constants";
+import { ADD, READY, TICK } from "./constants";
 
 export const addCount = () => dispatch => {
   return dispatch({ type: ADD });
@@ -14,3 +14,5 @@ export const startClock = () => dispatch => {
     800
   );
 };
+
+export const ready = () => ({ type: READY });

@@ -15,7 +15,7 @@ export class Counter extends React.Component {
   }
 
   render() {
-    return <Page {...this.props} />;
+    return <Page {...this.props} />
   }
 }
 

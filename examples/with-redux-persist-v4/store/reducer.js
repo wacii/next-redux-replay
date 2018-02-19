@@ -1,13 +1,19 @@
-import { ADD, TICK } from "./constants";
+import { ADD, READY, TICK } from "./constants";
+import { REHYDRATE } from "redux-persist/lib/constants";
 
 const exampleInitialState = {
   lastUpdate: 0,
   light: false,
-  count: 0
+  count: 0,
+  loading: true
 };
 
 const reducer = (state = exampleInitialState, action) => {
   switch (action.type) {
+    case READY:
+      return Object.assign({}, state, {
+        loading: false
+      });
     case TICK:
       return Object.assign({}, state, {
         lastUpdate: action.ts,

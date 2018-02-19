@@ -36,5 +36,5 @@ function initStore({ store, isServer }) {
 }
 
 export default withRedux(makeStore, initStore)(
-  () => <Counter title="Other Page" linkTo="/" />
+  () => <Counter title="Approach #2: Display loading indicator" linkTo="/" />
 );

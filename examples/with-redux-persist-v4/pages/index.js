@@ -40,5 +40,5 @@ function initStore({ store, isServer }) {
 }
 
 export default withRedux(makeStore, initStore)(
-  () => <Counter title="Index Page" linkTo="/other" />
+  () => <Counter title="Approach #1: Display incomplete data" linkTo="/other" />
 );

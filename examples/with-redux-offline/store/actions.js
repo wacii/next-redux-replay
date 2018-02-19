@@ -1,4 +1,8 @@
-import { TICK } from "./constants";
+import { READY, TICK } from "./constants";
+
+export function ready() {
+  return { type: READY };
+}
 
 export function tick() {
   return { type: TICK };

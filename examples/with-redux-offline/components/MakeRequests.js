@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { succeedAlways, succeedSometimes, failSometimes } from "../store";
+import { succeedAlways, succeedSometimes, failSometimes } from "../store/actions";
 
 function MakeRequests({ succeedAlways, succeedSometimes, failSometimes }) {
   return (

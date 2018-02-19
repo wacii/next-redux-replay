@@ -1,5 +1,5 @@
 import React from "react";
-import { makeStore } from "../store";
+import makeStore from "../store/makeStore";
 import withRedux from "next-redux-replay";
 import Page from "../components/Page";
 

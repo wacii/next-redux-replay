@@ -28,20 +28,20 @@ const makeStore = (actions, nextReduxReplayMiddleware, _isServer) => {
   return store;
 };
 
-const initState = ({ store, isServer }) => {
+const initStore = ({ store, isServer }) => {
   store.dispatch(someAction());
   const initialProps = {};
   return Promise.resolve(initialProps);
 }
 
-export default withRedux(makeStore, initState)(SomePage)
+export default withRedux(makeStore, initStore)(SomePage)
 ```
 
 ## `makeStore()`
 
 This function should create the store with the provided middleware then replay the recorded actions on the store. This middleware is responsible for collecting actions to be replayed on the client, so it should be placed in the middleware chain accordingly; i.e. after Redux Thunk.
 
-## `initState()`
+## `initStore()`
 
 Perform any setup and data fetching required here and return a promise when complete. Whatever the promise resolves to will be merged with the wrapped page component's props.
 

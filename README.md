@@ -39,12 +39,12 @@ export default withRedux(makeStore, initStore)(SomePage)
 
 ## `makeStore()`
 
-This function should create the store with the provided middleware then replay the recorded actions on the store. This middleware is responsible for collecting actions to be replayed on the client, so it should be placed in the middleware chain accordingly; i.e. after Redux Thunk.
+This function should create the store with the provided middleware then replay the recorded actions on the store. The middleware is responsible for collecting actions to be replayed on the client, so it should be placed in the middleware chain accordingly; i.e. after Redux Thunk.
 
 ## `initStore()`
 
-Perform any setup and data fetching required here and return a promise when complete. Whatever the promise resolves to will be merged with the wrapped page component's props.
+Perform any setup and data fetching required here and return a promise. Whatever the promise resolves to will be merged with the wrapped page component's `props`.
 
-## `connect()`
+* * *
 
-Unlike _next-redux-wrapper_, this library does not connect your components for you.
+> Unlike _next-redux-wrapper_, this library does not connect your page components to the Redux store.

@@ -43,7 +43,7 @@ This function should create the store with the provided middleware then replay t
 
 ## `initStore()`
 
-Perform any setup and data fetching required here and return a promise. Whatever the promise resolves to will be merged with the wrapped page component's `props`.
+Perform any setup and data fetching required here and return a promise. Whatever the promise resolves to will be merged with the wrapped page component's `props`. This function serves the same purpose as `getInitialProps()`, but receives the `store` in addition to the normal `context' object.
 
 * * *
 

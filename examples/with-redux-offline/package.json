@@ -15,7 +15,7 @@
     "babel-preset-env": "^1.6.0",
     "babel-preset-react": "^6.24.1",
     "express": "^4.16.2",
-    "next": "latest",
+    "next": "^3.0.0",
     "next-redux-replay": "^1.2.0",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",

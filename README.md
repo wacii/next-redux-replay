@@ -2,6 +2,8 @@
 
 Use _Redux_ and friends with _Next.js_.
 
+> WARNING: This library only supports _Next.js_ v3. It does not work with later versions.
+
 Differs from [next-redux-wrapper](https://github.com/kirill-konshin/next-redux-wrapper) in how state is transferred to the client. In _next-redux-wrapper_, the whole state is sent and used as the preloaded state in `createStore()`. With _Next Redux Replay_ only the actions responsible for the state are sent, which are then replayed on the client.
 
 ## Installation

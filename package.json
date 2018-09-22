@@ -39,6 +39,7 @@
     "redux": "^3.7.2"
   },
   "peerDependencies": {
+    "next": "^3.0.0",
     "react": "^15.6.1",
     "react-redux": "^5.0.6"
   }
